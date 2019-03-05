@@ -40,8 +40,29 @@ function continueShopping() {
 
             })
         } else {
+            console.log("============================================")
             console.log("Thank you! See you soon again!!");
+            console.log("============================================")
             //connection will end if user says no.
+            connection.end();
+        }
+    })
+}
+
+function startOver() {
+    inquirer.prompt({
+        name: "shopping",
+        type: "confirm",
+        message: "Would you like to keep shopping?",
+        default: true
+    }).then(function(userPick){
+        if(userPick.shopping === true){
+            
+            start();
+        } else {
+            console.log("============================================")
+            console.log("Thanks for shopping with us! See you soon!");
+            console.log("============================================")
             connection.end();
         }
     })
@@ -68,8 +89,12 @@ function start() {
             for (var i = 0; i < res.length; i++) {
                 //if users answer greater than actual stock then it will stop running
                 if (answer.quantity > res[i].stock_quantity) {
-                    console.log("Insufficient quantity!");
-                    connection.end();
+                    console.log("============================================")
+                    console.log("======>Insufficient quantity<======");
+                    console.log("============================================")
+
+                   
+                    startOver();
                 } 
                 //else it will keep running and update stock quantity acoordung to user input
                 else {
@@ -91,6 +116,7 @@ function start() {
                 message: "Are you sure you would like to purchase this item and quantity?",
                 default: true
             }]).then(function (userConfirm) {
+              
                 //if user confirm shopping then it will update quantity in database
                 if (userConfirm.confirmPurchase === true) {
                     connection.query("UPDATE products SET ? WHERE ?", [{
@@ -99,10 +125,12 @@ function start() {
                         item_id: itemId
                     }])
                     console.log("Thank you for your bussines!");
-                    connection.end();
+                    startOver();
+                   // connection.end();
                 } else {
                     console.log("Thank you!! Come back soon!");
-                    connection.end();
+                    startOver();
+                    //connection.end();
                 }
                 
             })
