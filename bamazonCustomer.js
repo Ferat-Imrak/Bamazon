@@ -124,11 +124,13 @@ function start() {
                     }, {
                         item_id: itemId
                     }])
+                    console.log("============================================")
                     console.log("Thank you for your bussines!");
+                    console.log("============================================")
                     startOver();
                    // connection.end();
                 } else {
-                    console.log("Thank you!! Come back soon!");
+                    //console.log("Thank you!! Come back soon!");
                     startOver();
                     //connection.end();
                 }
